@@ -17,12 +17,27 @@ export class ConversationsService {
     async getConversations() {
         return this.prisma.conversation.findMany({
             orderBy: { createdAt: 'desc' },
+            include: {
+                messages: {
+                    orderBy: {
+                        createdAt: 'asc',
+                    },
+                    take: 1,
+                },
+            },
         });
     }
 
     async getConversationById(id: number) {
         return this.prisma.conversation.findUnique({
             where: { id },
+            include: {
+                messages: {
+                    orderoBy: {
+                        createdAt: 'asc',
+                    },
+                },
+            },
         });
     }
 
